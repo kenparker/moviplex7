@@ -1,4 +1,3 @@
-
 package org.glassfish.movieplex7.client;
 
 import java.io.Serializable;
@@ -15,10 +14,9 @@ import org.glassfish.movieplex7.entities.Movie;
 /**
  *
  * Java Magazine January/February 2014
- * 
+ * <p/>
  * @author maggioni
  */
-
 @Named
 @RequestScoped
 public class MovieClientBean implements Serializable {
@@ -30,13 +28,15 @@ public class MovieClientBean implements Serializable {
     MovieBackingBean bean;
     
     @PostConstruct
-    public void init() {
+    public void init()
+    {
         client = ClientBuilder.newClient();
         target = client.target("http://localhost:8080/moviplex7/webresources/movie/");
     }
-    
+
     @PreDestroy
-    public void destroy() {
+    public void destroy()
+    {
         client.close();
     }
     
