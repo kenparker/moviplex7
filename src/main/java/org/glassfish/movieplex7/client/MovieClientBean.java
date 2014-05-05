@@ -6,6 +6,7 @@ import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
@@ -25,13 +26,26 @@ public class MovieClientBean implements Serializable {
     WebTarget target;
   
     @Inject
+    HttpServletRequest httpServletRequest;
+    
+    @Inject
     MovieBackingBean bean;
+    
+    
     
     @PostConstruct
     public void init()
     {
+     
         client = ClientBuilder.newClient();
-        target = client.target("http://localhost:8080/moviplex7/webresources/movie/");
+        target = client
+                .target("http://" +
+                httpServletRequest.getLocalName() +
+                ":" +
+                httpServletRequest.getLocalPort() +
+                "/" +
+                httpServletRequest.getContextPath() +
+                "/webresources/movie/");
     }
 
     @PreDestroy
@@ -46,7 +60,7 @@ public class MovieClientBean implements Serializable {
     
     public Movie getMovie() {
         Movie m = target
-                .path("{movie")
+                .path("{movie}")
                 .resolveTemplate("movie", bean.getMovieId())
                 .request()
                 .get(Movie.class);
