@@ -1,6 +1,7 @@
 package org.glassfish.movieplex7.client;
 
 import java.io.Serializable;
+import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.enterprise.context.RequestScoped;
@@ -38,9 +39,10 @@ public class MovieClientBean implements Serializable {
     {
      
         client = ClientBuilder.newClient();
+      
         target = client
                 .target("http://" +
-                httpServletRequest.getLocalName() +
+                httpServletRequest.getServerName() +
                 ":" +
                 httpServletRequest.getLocalPort() +
                 "/" +
